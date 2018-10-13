@@ -8,11 +8,22 @@ The progressed project
 
         - Game enviroment : Starcraft II
 
-        - Starcraft Learning environment : PySC2 
+        - Starcraft Learning environment : PySC2 2.0.1
+        
+        - Keras_A2C_StarCraft
 
-        - https://github.com/sc2-korean-level/MoveToBeacon/tree/master/4wayBeacon_a2c
+            a. https://github.com/sc2-korean-level/MoveToBeacon/tree/master/4wayBeacon_a2c
 
-        - https://github.com/rlcode/reinforcement-learning-kr/blob/master/3-atari/1-breakout/breakout_a3c.py
+            b. https://github.com/rlcode/reinforcement-learning-kr/blob/master/3-atari/1-breakout/breakout_a3c.py
+            
+        - Keras_PPO_StarCraft
+        
+            a. https://github.com/sc2-korean-level/MoveToBeacon/tree/master/4wayBeacon_ppo
+            
+            b. https://github.com/chagmgang/OnlyPGRL/blob/master/policy_optimization/ppo.py#L1
+            
+            c. https://github.com/OctThe16th/PPO-Keras/blob/master/Main.py
+            
         
 Project computer environment
 
@@ -26,4 +37,4 @@ Project computer environment
 
     * Python 3.6
     
-    * Pycharm CE 2
+    * Pycharm CE 2018.2.4
