@@ -1,15 +1,9 @@
 import sys
 from absl import flags
-from pysc2.env import sc2_env, environment
-from pysc2.lib import actions, features
-import matplotlib.pyplot as plt
-import random
-import tensorflow as tf
+from pysc2.env import sc2_env
+from pysc2.lib import actions
 import numpy as np
-##### from policy_net import Policy_net
 from ppo import PPOIQN
-import time
-##### from file_writer import open_file_and_save
 
 if __name__ == "__main__":
     FLAGS = flags.FLAGS

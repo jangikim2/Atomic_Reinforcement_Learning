@@ -1,29 +1,22 @@
 import numpy as np
-import tensorflow as tf
 import copy
-from keras.models import Model
-from keras.layers import Dense, Multiply, Input
+from keras.layers import Dense
 from keras.models import Sequential
 from keras import backend as K
-from keras.optimizers import RMSprop
 from keras.optimizers import Adam
 
 class PPOIQN:
     def __init__(self):
-        ###### self.sess =sess
         self.state_size = 2
         self.action_size = 4
         self.value_size = 1
-        ##### self.num_support = 8
 
-        # 액터-크리틱 하이퍼파라미터
         self.discount_factor = 0.99
         self.actor_lr = 0.001
         self.critic_lr = 0.005
         self.learning_rate = 0.001
 
         self.gamma = 0.99
-        ##### self.batch_size = 64
 
         self.act_probs = self.build_actor()
         self.v_preds = self.build_value()
@@ -70,8 +63,6 @@ class PPOIQN:
         return v_preds
 
     def get_action(self, state):
-        ##### history = np.float32(history / 255.)
-        ##### policy = self.local_actor.predict(history)[0]
         policy = self.act_probs.predict(state)[0]
         action_index = np.random.choice(self.action_size, 1, p=policy)[0]
 
@@ -139,13 +130,6 @@ class PPOIQN:
         loss = loss_spatial_clip - loss_vf
         loss = -loss
 
-        '''
-        optimizer = RMSprop(lr=self.actor_lr, rho=0.99, epsilon=0.01)
-        updates = optimizer.get_updates(self.actor.trainable_weights, [],loss)
-        train = K.function([self.actor.input, action, advantages],
-                           [loss], updates=updates)
-        '''
-        ##### optimizer = RMSprop(lr=self.actor_lr, rho=0.99, epsilon=0.01)
         optimizer = Adam(lr=self.learning_rate)
         updates = optimizer.get_updates(self.act_probs.trainable_weights, [], loss)
         train = K.function([self.act_probs.input, self.act_probs_old.input, self.v_preds.input, actions, rewards, v_preds_next, gaes], [loss], updates=updates)
@@ -163,7 +147,6 @@ class PPOIQN:
         loss_vf_squared = K.square(loss_vf_difference)
         loss_vf = K.mean(loss_vf_squared)
 
-        ##### optimizer = RMSprop(lr=self.critic_lr, rho=0.99, epsilon=0.01)
         optimizer = Adam(lr=self.learning_rate)
         updates = optimizer.get_updates(self.v_preds.trainable_weights, [], loss_vf)
         train = K.function([self.v_preds.input, rewards, v_preds_next], [loss_vf], updates=updates)
