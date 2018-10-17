@@ -24,6 +24,12 @@ The progressed project
             
             c. https://github.com/OctThe16th/PPO-Keras/blob/master/Main.py
             
+        - Keras_CNN_PPO_StarCraft
+        
+            a. https://github.com/sc2-korean-level/MoveToBeacon/tree/master/PositionBeacon
+            
+            b. https://github.com/rlcode/reinforcement-learning-kr/blob/master/3-atari/1-breakout/breakout_a3c.py    
+            
         
 Project computer environment
 
