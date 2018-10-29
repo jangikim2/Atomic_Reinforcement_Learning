@@ -17,8 +17,8 @@ class PPOIQN:
         self.c_1 = 1
         self.c_2 = 0.005
 
-        self.act_probs, self.spatial_probs, self.v_preds = self.build_act_spatial_value()
-        self.act_probs_old, self.spatial_probs_old, self.v_preds_old = self.build_act_spatial_value()
+        self.act_probs, self.spatial_probs, self.act_spatial_probs, self.v_preds = self.build_act_spatial_value()
+        self.act_probs_old, self.spatial_probs_old, self.act_spatial_probs_old, self.v_preds_old = self.build_act_spatial_value()
 
         self.act_spatial_updater = self.act_spatial_optimizer()
         self.value_updater = self.value_optimizer()
@@ -51,7 +51,7 @@ class PPOIQN:
         act_probs = Model(inputs=digit_a, outputs=o_act_probs)
         spatial_probs = Model(inputs=digit_b, outputs=o_spatial_probs)
 
-        self.act_spatial_probs = Model(inputs=[digit_a, digit_b], outputs=[o_act_probs, o_spatial_probs])
+        act_spatial_probs = Model(inputs=[digit_a, digit_b], outputs=[o_act_probs, o_spatial_probs])
 
         act_probs.summary()
         spatial_probs.summary()
@@ -63,7 +63,7 @@ class PPOIQN:
         v_preds = Model(inputs=input, outputs=o_v_preds)
         v_preds.summary()
 
-        return act_probs, spatial_probs, v_preds
+        return act_probs, spatial_probs, act_spatial_probs, v_preds
 
     def get_action(self, obs):
         action_policy = []
@@ -241,9 +241,9 @@ class PPOIQN:
     def train(self, obs, spatial, actions, rewards, v_preds_next, gaes):
         state = K.reshape(obs, [-1, 16, 16, 2])
 
-        self.act_probs_old.trainable = self.spatial_probs_old.trainable = self.v_preds.trainable = False
+        self.act_probs_old.trainable = self.spatial_probs_old.trainable = self.v_preds.trainable = self.act_spatial_probs_old.trainable = False
         self.act_spatial_updater([state, state, state, state, state, spatial, actions, rewards, v_preds_next, gaes])
-        self.act_probs_old.trainable = self.spatial_probs_old.trainable = self.v_preds.trainable = True
+        self.act_probs_old.trainable = self.spatial_probs_old.trainable = self.v_preds.trainable = self.act_spatial_probs_old.trainable =True
 
         self.value_updater([state, rewards, v_preds_next])
 
